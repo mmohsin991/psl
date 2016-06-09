@@ -1,0 +1,10 @@
+PODS:
+  - YTVimeoExtractor (1.0.0)
+
+DEPENDENCIES:
+  - YTVimeoExtractor
+
+SPEC CHECKSUMS:
+  YTVimeoExtractor: fa329a7cc99fc3d0b4e1fa6fd9d1d5eab1835c7d
+
+COCOAPODS: 0.39.0

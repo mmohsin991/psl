@@ -2,7 +2,7 @@
 //  MainSearchTableVC.swift
 //  psl
 //
-//  Created by Raza Master on 1/7/15.
+//  Created by Muhammad Mohsin on 1/7/15.
 //  Copyright (c) 2015 PanaCloud. All rights reserved.
 //
 
@@ -74,7 +74,7 @@ class MainSearchTableVC: UITableViewController, UISearchBarDelegate, UISearchDis
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         //ask for a reusable cell from the tableview, the tableview will create a new one if it doesn't have any
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
         
         // Check to see whether the normal table or search results table is being displayed and set the Candy object from the appropriate array
         if tableView == self.searchDisplayController!.searchResultsTableView {
@@ -105,8 +105,8 @@ class MainSearchTableVC: UITableViewController, UISearchBarDelegate, UISearchDis
     //  These two methods are part of the UISearchDisplayControllerDelegate protocol. They will call the content filtering function when the the user enters a search query. The first method runs the text filtering function whenever the user changes the search string in the search bar. The second method will handle the changes in the Scope Bar input. You haven’t yet added the Scope Bar in this tutorial, but you might as well add this UISearchBarDelegate method now since you’re going to need it later.
 
 
-    func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchString searchString: String!) -> Bool {
-        self.filterItemsForName(searchString)
+    func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchString searchString: String?) -> Bool {
+        self.filterItemsForName(searchString!)
         return true
     }
     
@@ -151,10 +151,10 @@ class MainSearchTableVC: UITableViewController, UISearchBarDelegate, UISearchDis
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "searchVideoPlayback" {
             
-            let videoVC = segue.destinationViewController as VideoPlaybackViewController
+            let videoVC = segue.destinationViewController as! VideoPlaybackViewController
             
-            if sender as UITableView == self.searchDisplayController!.searchResultsTableView {
-                videoVC.index = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow()?.row
+            if sender as! UITableView == self.searchDisplayController!.searchResultsTableView {
+                videoVC.index = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow!.row
                 videoVC.categoryVideos = self.searchItem
             }
             

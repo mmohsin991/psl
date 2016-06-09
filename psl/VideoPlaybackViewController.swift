@@ -2,7 +2,7 @@
 //  VideoPlaybackViewController.swift
 //  psl
 //
-//  Created by Raza Master on 1/7/15.
+//  Created by Muhammad Mohsin on 1/7/15.
 //  Copyright (c) 2015 PanaCloud. All rights reserved.
 //
 
@@ -10,15 +10,14 @@ import UIKit
 import MediaPlayer
 import CoreData
 
-class VideoPlaybackViewController: UIViewController, YTVimeoExtractorDelegate {
+
+class VideoPlaybackViewController: UIViewController {
     
     var barButtonItemRight : UIBarButtonItem! // add a custom barButtonItem for home image
     
     var player:MPMoviePlayerViewController!
     var favorites: [AnyObject]!     // it store the ref. of favorate item in core data
     
-    var fetchVideoURLFromURL: YTVimeoExtractor! // vimeo's embeded video url from vimeo web page
-
     var index: Int!     // pointer to the current video in 
     var categoryVideos: [Item]! // all videos of previous view
     var selectedItem: Item! // only filtered videos a/c to category or favorites or most recent
@@ -83,14 +82,14 @@ class VideoPlaybackViewController: UIViewController, YTVimeoExtractorDelegate {
 
         
         // Ref to our  app delegate
-        self.appDel = UIApplication.sharedApplication().delegate as AppDelegate
+        self.appDel = UIApplication.sharedApplication().delegate as! AppDelegate
         // ref to moc
         self.context = appDel.managedObjectContext!
         
         // update the favorites item array
         let fReq = NSFetchRequest(entityName: "Favorites")
         
-        self.favorites = self.context.executeFetchRequest(fReq, error: nil)!
+        self.favorites = try! self.context.executeFetchRequest(fReq)
         
         // set or unset the favourate Icon(green or gray)
         setOrUnsetFavourateIcon(self.selectedItem.name)
@@ -130,33 +129,39 @@ class VideoPlaybackViewController: UIViewController, YTVimeoExtractorDelegate {
 
     @IBAction func playVideo(sender: AnyObject) {
        // Use YTVimewExtractor to extract embeded video url from vimeo web page
+     
         activityIndicator.startAnimating()
         btnPlayVideo.hidden = true
-        //btnPlayVideo.setTitle("Please wait...", forState: UIControlState.Normal)
-        self.fetchVideoURLFromURL = YTVimeoExtractor(URL: selectedItem.url, quality: YTVimeoVideoQualityMedium)
-        
-        self.fetchVideoURLFromURL.delegate = self
-        
-        self.fetchVideoURLFromURL.start()
 
-    }
-    
-    //YTVimewExtractor Delegate Function
-    //MARK: vimeo
-    func vimeoExtractor(extractor: YTVimeoExtractor!, didSuccessfullyExtractVimeoURL videoURL: NSURL!, withQuality quality: YTVimeoVideoQuality) {
-        
-        // add selected video(item) to most recent list
-        addVideoToMostRecent()
-        
-        player = MPMoviePlayerViewController(contentURL: videoURL)
-        
-        
-        self.presentMoviePlayerViewControllerAnimated(player)
-    }
-    
-    //YTVimewExtractor Delegate Function
-    func vimeoExtractor(extractor: YTVimeoExtractor!, failedExtractingVimeoURLWithError error: NSError!) {
-        btnPlayVideo.setTitle("Video not available", forState: UIControlState.Normal)
+        YTVimeoExtractor.sharedExtractor().fetchVideoWithVimeoURL(selectedItem.url, withReferer: nil) { (video, error) in
+            
+            if (video != nil) {
+                
+                var highQualityURL = video!.streamURLs
+                if let url = highQualityURL![360]{
+                    
+                    let urlStr : NSString = url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+                    let searchURL : NSURL = NSURL(string: urlStr as String)!
+                    
+                    self.addVideoToMostRecent()
+                    
+                    self.player = MPMoviePlayerViewController(contentURL: searchURL)
+                    
+                    self.presentMoviePlayerViewControllerAnimated(self.player)
+                
+                }else{
+                  
+                    self.btnPlayVideo.setTitle("Video not available", forState: UIControlState.Normal)
+ 
+                }
+            
+
+            }else{
+                
+                self.btnPlayVideo.setTitle("Video not available", forState: UIControlState.Normal)
+            }
+            
+        }
 
     }
 
@@ -169,18 +174,21 @@ class VideoPlaybackViewController: UIViewController, YTVimeoExtractorDelegate {
                         
             // retrive the favorite item from favorite's array
             let favorate : [AnyObject]! = filterItemsForNames(self.favorites, name: self.selectedItem.name)
-            let item = favorate[0] as NSManagedObject
+            let item = favorate[0] as! NSManagedObject
             self.context.deleteObject(item)
             
            // favorite.setTitle("Add to Favorite", forState: UIControlState.Normal)
             favorite.setImage(UIImage(named: "heart_gray"), forState: UIControlState.Normal)
 
-            self.context.save(nil)
+           do {
+               try self.context.save()
+           } catch _ {
+           }
             self.isFavorite = false
             
             // update the favorites item array
             let fReq = NSFetchRequest(entityName: "Favorites")
-            self.favorites = self.context.executeFetchRequest(fReq, error: nil)!
+            self.favorites = try! self.context.executeFetchRequest(fReq)
         }
         
         else if self.isFavorite ==  false {
@@ -194,12 +202,15 @@ class VideoPlaybackViewController: UIViewController, YTVimeoExtractorDelegate {
             newItem.url = self.selectedItem.url
             newItem.thumbImg = self.selectedItem.thumbImg
             
-            self.context.save(nil)
+            do {
+                try self.context.save()
+            } catch _ {
+            }
             self.isFavorite = true
             
             // update the favorites item array
             let fReq = NSFetchRequest(entityName: "Favorites")
-            self.favorites = self.context.executeFetchRequest(fReq, error: nil)!
+            self.favorites = try! self.context.executeFetchRequest(fReq)
 
             //favorite.setTitle("Remove from Favorite", forState: UIControlState.Normal)
             favorite.setImage(UIImage(named: "heart_green"), forState: UIControlState.Normal)
@@ -210,8 +221,8 @@ class VideoPlaybackViewController: UIViewController, YTVimeoExtractorDelegate {
         //  Filter the array using the filter method
         var filterdItem: [AnyObject]!
         filterdItem = list.filter({( item: AnyObject) -> Bool in
-            let nsObject = item as NSManagedObject
-            let stringMatch = (nsObject.valueForKey("name") as String).rangeOfString(name)
+            let nsObject = item as! NSManagedObject
+            let stringMatch = (nsObject.valueForKey("name") as! String).rangeOfString(name)
             return (stringMatch != nil)
         })
         return filterdItem
@@ -235,7 +246,7 @@ class VideoPlaybackViewController: UIViewController, YTVimeoExtractorDelegate {
         // update the MostRecent item array
         let fReq = NSFetchRequest(entityName: "MostRecent")
         
-        let mostRecentVideos = self.context.executeFetchRequest(fReq, error: nil)!
+        let mostRecentVideos = try! self.context.executeFetchRequest(fReq)
         
         // check the video is already in most recent list
         let isInMostrecent = checkNameInList(mostRecentVideos, name: self.selectedItem.name)
@@ -245,7 +256,7 @@ class VideoPlaybackViewController: UIViewController, YTVimeoExtractorDelegate {
             
             // retrive the current video item from most recent coredata
             let mostRecent: [AnyObject]! = filterItemsForNames(mostRecentVideos, name: self.selectedItem.name)
-            let item = mostRecent[0] as NSManagedObject
+            let item = mostRecent[0] as! NSManagedObject
             self.context.deleteObject(item)
             
             
@@ -253,21 +264,24 @@ class VideoPlaybackViewController: UIViewController, YTVimeoExtractorDelegate {
         }
         // if the video is not already in most recent then delete the last video from the list if the most recent's videos count is greater than 15
         else if mostRecentVideos.count >= 15 {
-            let item = mostRecentVideos[0] as NSManagedObject
+            let item = mostRecentVideos[0] as! NSManagedObject
             self.context.deleteObject(item)
         }
         
         let en : NSEntityDescription = NSEntityDescription.entityForName("MostRecent", inManagedObjectContext: self.context)!
         
         // create instance of our data model and initilize
-        var newItem = Model(entity: en, insertIntoManagedObjectContext: self.context)
+        let newItem = Model(entity: en, insertIntoManagedObjectContext: self.context)
         
         // map our properties
         newItem.name = self.selectedItem.name
         newItem.url = self.selectedItem.url
         newItem.thumbImg = self.selectedItem.thumbImg
         
-        self.context.save(nil)
+        do {
+            try self.context.save()
+        } catch _ {
+        }
         
     }
     
@@ -376,7 +390,7 @@ class VideoPlaybackViewController: UIViewController, YTVimeoExtractorDelegate {
         let priority = DISPATCH_QUEUE_PRIORITY_BACKGROUND
         dispatch_async(dispatch_get_global_queue(priority, 0)){
             // background thread
-            thumbImgData =  NSData(contentsOfURL: NSURL(string: self.selectedItem.thumbImg))
+            thumbImgData =  NSData(contentsOfURL: NSURL(string: self.selectedItem.thumbImg)!)
             
             dispatch_sync(dispatch_get_main_queue()) {
                 // main thread

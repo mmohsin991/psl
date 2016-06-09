@@ -2,7 +2,7 @@
 //  SubCategoryList.swift
 //  psl
 //
-//  Created by Raza Master on 1/7/15.
+//  Created by Muhammad Mohsin on 1/7/15.
 //  Copyright (c) 2015 PanaCloud. All rights reserved.
 //
 
@@ -169,10 +169,10 @@ class SubCategoryList: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "videoPlayback" {
             
-            let videoVC = segue.destinationViewController as VideoPlaybackViewController
+            let videoVC = segue.destinationViewController as! VideoPlaybackViewController
             
             videoVC.categoryVideos = filterdData
-            let indexOfSelected = self.tableView.indexPathForSelectedRow()?.row
+            let indexOfSelected = self.tableView.indexPathForSelectedRow?.row
             videoVC.index = indexOfSelected!
         }
     }

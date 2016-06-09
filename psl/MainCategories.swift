@@ -2,7 +2,7 @@
 //  MainCategories.swift
 //  psl
 //
-//  Created by Raza Master on 1/7/15.
+//  Created by Muhammad Mohsin on 1/7/15.
 //  Copyright (c) 2015 PanaCloud. All rights reserved.
 //
 
@@ -65,7 +65,7 @@ class MainCategories: UIViewController, UICollectionViewDataSource, UICollection
     
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath) as CollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath) as! CollectionViewCell
         let collectionViewWidth = collectionView.bounds.size.width
         cell.categoryImage.image = UIImage(named: categoriesImages[indexPath.row])
         cell.categoryName.text = categoriesImages[indexPath.row]
@@ -81,7 +81,7 @@ class MainCategories: UIViewController, UICollectionViewDataSource, UICollection
         //desImg = categoriesImages[indexPath.row]
         selectedCategoryName = categoriesImages[indexPath.row]
         
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as CollectionViewCell
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! CollectionViewCell
         cell.backgroundColor = UIColor(red: 0.074509, green: 0.650980, blue: 0.313725, alpha: 1.0)
         
         performSegueWithIdentifier("subCategoriesVC", sender: self)
@@ -102,7 +102,7 @@ class MainCategories: UIViewController, UICollectionViewDataSource, UICollection
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "subCategoriesVC" {
 
-            let detailView = segue.destinationViewController as SubCategoryList
+            let detailView = segue.destinationViewController as! SubCategoryList
             detailView.categoryName = selectedCategoryName
        }
         

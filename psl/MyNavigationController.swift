@@ -2,7 +2,7 @@
 //  MyNavigationController.swift
 //  psl
 //
-//  Created by Raza Master on 1/7/15.
+//  Created by Muhammad Mohsin on 1/7/15.
 //  Copyright (c) 2015 PanaCloud. All rights reserved.
 //
 
@@ -14,9 +14,9 @@ class MyNavigationController: UINavigationController {
         return false
     }
     
-    override func supportedInterfaceOrientations() -> Int {
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         //return Int(UIInterfaceOrientationMask.Portrait.rawValue)
-        return Int(UIInterfaceOrientationMask.Portrait.toRaw())
+        return UIInterfaceOrientationMask.Portrait
     }
     
 }

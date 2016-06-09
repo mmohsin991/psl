@@ -2,7 +2,7 @@
 //  Favorites.swift
 //  psl
 //
-//  Created by Raza Master on 1/7/15.
+//  Created by Muhammad Mohsin on 1/7/15.
 //  Copyright (c) 2015 PanaCloud. All rights reserved.
 //
 
@@ -46,15 +46,15 @@ class Favorites: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDel.managedObjectContext!
 
         let fReq = NSFetchRequest(entityName: "Favorites")
         
-        let allItems = context.executeFetchRequest(fReq, error: nil)!
+        let allItems = try! context.executeFetchRequest(fReq)
         
         // make it reverse to sort the table in last viewed first order
-        self.items = allItems.reverse()
+        self.items = Array(allItems.reverse())
         
         tableView.reloadData()
         
@@ -115,7 +115,7 @@ class Favorites: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
 
-            let item = items[indexPath.row ] as NSManagedObject
+            let item = items[indexPath.row ] as! NSManagedObject
             cell.textLabel?.text = item.valueForKey("name") as? String
             cell.backgroundColor = UIColor.whiteColor()
             cell.textLabel?.textColor = UIColor.blackColor()
@@ -155,18 +155,20 @@ class Favorites: UITableViewController {
     // Override to support editing the table view.
     override func tableView(tableView: UITableView?, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
-        let appDel = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
         let context = appDel.managedObjectContext as NSManagedObjectContext!
         
         if editingStyle == UITableViewCellEditingStyle.Delete {
             if let tv = tableView {
-                context.deleteObject(items[indexPath.row] as NSManagedObject)
+                context.deleteObject(items[indexPath.row] as! NSManagedObject)
                 items.removeAtIndex(indexPath.row)
                 tv.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
             }
-            var error : NSError?
-            if !context.save(&error){
+            do {
+                try context.save()
+            }catch{
                 abort()
+                
             }
         }
         
@@ -175,10 +177,10 @@ class Favorites: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "favoriteVideoPlayback" {
             
-            let videoVC = segue.destinationViewController as VideoPlaybackViewController
+            let videoVC = segue.destinationViewController as! VideoPlaybackViewController
             
             videoVC.categoryVideos = convertEntitiesToItems(items)
-            let index = self.tableView.indexPathForSelectedRow()?.row
+            let index = self.tableView.indexPathForSelectedRow?.row
             videoVC.index = index!
         }
     }
@@ -188,10 +190,10 @@ class Favorites: UITableViewController {
         var tempItems = [Item]()
         
         for entity in entities {
-            let manageObjectEntity = entity as NSManagedObject
-            let name = manageObjectEntity.valueForKey("name") as String
-            let url = manageObjectEntity.valueForKey("url") as String
-            let thumbImg = manageObjectEntity.valueForKey("thumbImg") as String
+            let manageObjectEntity = entity as! NSManagedObject
+            let name = manageObjectEntity.valueForKey("name") as! String
+            let url = manageObjectEntity.valueForKey("url") as! String
+            let thumbImg = manageObjectEntity.valueForKey("thumbImg") as! String
             
             tempItems.append(Item(url: url, thumbImg: thumbImg, name: name))
 

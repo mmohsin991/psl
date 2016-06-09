@@ -23,9 +23,9 @@
 		2DBBAB221A5DEB3A006CD975 /* MainSearchTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBBAB211A5DEB3A006CD975 /* MainSearchTableVC.swift */; };
 		2DBBAB241A5DEB40006CD975 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBBAB231A5DEB40006CD975 /* Model.swift */; };
 		2DBBAB2A1A5DEB70006CD975 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DBBAB291A5DEB70006CD975 /* Main.storyboard */; };
-		2DBBAB2E1A5DED20006CD975 /* YTVimeoExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DBBAB2D1A5DED20006CD975 /* YTVimeoExtractor.m */; };
 		2DD29E9A1A5DFB720062F278 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD29E991A5DFB720062F278 /* MediaPlayer.framework */; };
 		BEACEBA81A5FF78A00C42123 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACEBA71A5FF78A00C42123 /* DataBase.swift */; };
+		D65C69FD1BA0FC2A533438B0 /* libPods-psl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67FE59A3C6B598543C5FBBCE /* libPods-psl.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,9 +60,10 @@
 		2DBBAB231A5DEB40006CD975 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		2DBBAB291A5DEB70006CD975 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		2DBBAB2B1A5DED20006CD975 /* psl-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "psl-Bridging-Header.h"; sourceTree = "<group>"; };
-		2DBBAB2C1A5DED20006CD975 /* YTVimeoExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTVimeoExtractor.h; sourceTree = "<group>"; };
-		2DBBAB2D1A5DED20006CD975 /* YTVimeoExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTVimeoExtractor.m; sourceTree = "<group>"; };
 		2DD29E991A5DFB720062F278 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		349C3FACBA6EEB5E7376673B /* Pods-psl.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psl.debug.xcconfig"; path = "Pods/Target Support Files/Pods-psl/Pods-psl.debug.xcconfig"; sourceTree = "<group>"; };
+		67FE59A3C6B598543C5FBBCE /* libPods-psl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-psl.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7584B81F9AA4961A23749548 /* Pods-psl.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psl.release.xcconfig"; path = "Pods/Target Support Files/Pods-psl/Pods-psl.release.xcconfig"; sourceTree = "<group>"; };
 		BEACEBA71A5FF78A00C42123 /* DataBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,6 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2DD29E9A1A5DFB720062F278 /* MediaPlayer.framework in Frameworks */,
+				D65C69FD1BA0FC2A533438B0 /* libPods-psl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +87,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2BA6A7902FC10AC33A20219B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				349C3FACBA6EEB5E7376673B /* Pods-psl.debug.xcconfig */,
+				7584B81F9AA4961A23749548 /* Pods-psl.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		2DBBAADE1A5DEACA006CD975 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +103,8 @@
 				2DBBAAE91A5DEACA006CD975 /* psl */,
 				2DBBAB021A5DEACB006CD975 /* pslTests */,
 				2DBBAAE81A5DEACA006CD975 /* Products */,
+				2BA6A7902FC10AC33A20219B /* Pods */,
+				4109F082AAAABB83795F1AB0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,7 +120,6 @@
 		2DBBAAE91A5DEACA006CD975 /* psl */ = {
 			isa = PBXGroup;
 			children = (
-				2DBBAB2F1A5DED6A006CD975 /* YTVimeoExtractor */,
 				2DBBAB291A5DEB70006CD975 /* Main.storyboard */,
 				2DBBAB111A5DEAF9006CD975 /* MyNavigationController.swift */,
 				2DBBAB151A5DEB03006CD975 /* HomePage.swift */,
@@ -155,13 +167,12 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		2DBBAB2F1A5DED6A006CD975 /* YTVimeoExtractor */ = {
+		4109F082AAAABB83795F1AB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2DBBAB2C1A5DED20006CD975 /* YTVimeoExtractor.h */,
-				2DBBAB2D1A5DED20006CD975 /* YTVimeoExtractor.m */,
+				67FE59A3C6B598543C5FBBCE /* libPods-psl.a */,
 			);
-			name = YTVimeoExtractor;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,9 +182,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2DBBAB091A5DEACB006CD975 /* Build configuration list for PBXNativeTarget "psl" */;
 			buildPhases = (
+				49792B776238BC49EF16AF7C /* Check Pods Manifest.lock */,
 				2DBBAAE31A5DEACA006CD975 /* Sources */,
 				2DBBAAE41A5DEACA006CD975 /* Frameworks */,
 				2DBBAAE51A5DEACA006CD975 /* Resources */,
+				7FCCA3016F0FDCF7701EA9ED /* Embed Pods Frameworks */,
+				524D062790E5C80526A7ADDB /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -208,6 +222,8 @@
 		2DBBAADF1A5DEACA006CD975 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0730;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = PanaCloud;
 				TargetAttributes = {
@@ -260,6 +276,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		49792B776238BC49EF16AF7C /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		524D062790E5C80526A7ADDB /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-psl/Pods-psl-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7FCCA3016F0FDCF7701EA9ED /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-psl/Pods-psl-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2DBBAAE31A5DEACA006CD975 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -275,7 +339,6 @@
 				2DBBAB161A5DEB03006CD975 /* HomePage.swift in Sources */,
 				2DBBAB1C1A5DEB29006CD975 /* VideoPlaybackViewController.swift in Sources */,
 				2DBBAB121A5DEAF9006CD975 /* MyNavigationController.swift in Sources */,
-				2DBBAB2E1A5DED20006CD975 /* YTVimeoExtractor.m in Sources */,
 				2DBBAAED1A5DEACA006CD975 /* AppDelegate.swift in Sources */,
 				2DBBAAF01A5DEACA006CD975 /* psl.xcdatamodeld in Sources */,
 				2DBBAB1A1A5DEB22006CD975 /* SubCategoryList.swift in Sources */,
@@ -391,36 +454,36 @@
 		};
 		2DBBAB0A1A5DEACB006CD975 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 349C3FACBA6EEB5E7376673B /* Pods-psl.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				INFOPLIST_FILE = psl/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "psl/psl-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		2DBBAB0B1A5DEACB006CD975 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7584B81F9AA4961A23749548 /* Pods-psl.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				INFOPLIST_FILE = psl/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "psl/psl-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
